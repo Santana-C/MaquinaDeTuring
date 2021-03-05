@@ -48,7 +48,8 @@ namespace MaquinaDeTuring
             this.btnIniciar = new System.Windows.Forms.Button();
             this.btnNuevo = new System.Windows.Forms.Button();
             this.pnlContenido = new System.Windows.Forms.Panel();
-            this.btnRecargarImagen = new System.Windows.Forms.Button();
+            this.chkDireccion = new System.Windows.Forms.CheckBox();
+            this.picMaquinaTuring = new System.Windows.Forms.PictureBox();
             this.btnAgregarTransicion = new System.Windows.Forms.Button();
             this.btnEliminarEstado = new System.Windows.Forms.Button();
             this.btnAgregarEstado = new System.Windows.Forms.Button();
@@ -64,6 +65,9 @@ namespace MaquinaDeTuring
             this.lblDestino = new System.Windows.Forms.Label();
             this.dgvTransiciones = new System.Windows.Forms.DataGridView();
             this.Transicion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Origen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Destino = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Lectura = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvEstados = new System.Windows.Forms.DataGridView();
             this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gpbSimbolosCinta = new System.Windows.Forms.GroupBox();
@@ -85,6 +89,7 @@ namespace MaquinaDeTuring
             this.pnlBarraSuperior.SuspendLayout();
             this.pnlEjecucion.SuspendLayout();
             this.pnlContenido.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picMaquinaTuring)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransiciones)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEstados)).BeginInit();
             this.gpbSimbolosCinta.SuspendLayout();
@@ -178,7 +183,8 @@ namespace MaquinaDeTuring
             // 
             // pnlContenido
             // 
-            this.pnlContenido.Controls.Add(this.btnRecargarImagen);
+            this.pnlContenido.Controls.Add(this.chkDireccion);
+            this.pnlContenido.Controls.Add(this.picMaquinaTuring);
             this.pnlContenido.Controls.Add(this.btnAgregarTransicion);
             this.pnlContenido.Controls.Add(this.btnEliminarEstado);
             this.pnlContenido.Controls.Add(this.btnAgregarEstado);
@@ -202,23 +208,28 @@ namespace MaquinaDeTuring
             this.pnlContenido.Enabled = false;
             this.pnlContenido.Location = new System.Drawing.Point(0, 50);
             this.pnlContenido.Name = "pnlContenido";
-            this.pnlContenido.Size = new System.Drawing.Size(833, 474);
+            this.pnlContenido.Size = new System.Drawing.Size(833, 502);
             this.pnlContenido.TabIndex = 1;
             // 
-            // btnRecargarImagen
+            // chkDireccion
             // 
-            this.btnRecargarImagen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
-            this.btnRecargarImagen.FlatAppearance.BorderSize = 0;
-            this.btnRecargarImagen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRecargarImagen.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRecargarImagen.Image = global::MaquinaDeTuring.Properties.Resources.Imagen;
-            this.btnRecargarImagen.Location = new System.Drawing.Point(143, 405);
-            this.btnRecargarImagen.Name = "btnRecargarImagen";
-            this.btnRecargarImagen.Size = new System.Drawing.Size(40, 40);
-            this.btnRecargarImagen.TabIndex = 17;
-            this.btnRecargarImagen.Text = "X";
-            this.btnRecargarImagen.UseVisualStyleBackColor = false;
-            this.btnRecargarImagen.Click += new System.EventHandler(this.btnRecargarImagen_Click);
+            this.chkDireccion.AutoSize = true;
+            this.chkDireccion.Location = new System.Drawing.Point(441, 96);
+            this.chkDireccion.Name = "chkDireccion";
+            this.chkDireccion.Size = new System.Drawing.Size(75, 25);
+            this.chkDireccion.TabIndex = 19;
+            this.chkDireccion.Text = "In-line";
+            this.chkDireccion.UseVisualStyleBackColor = true;
+            this.chkDireccion.CheckedChanged += new System.EventHandler(this.chkDireccion_CheckedChanged);
+            // 
+            // picMaquinaTuring
+            // 
+            this.picMaquinaTuring.Location = new System.Drawing.Point(441, 124);
+            this.picMaquinaTuring.Name = "picMaquinaTuring";
+            this.picMaquinaTuring.Size = new System.Drawing.Size(380, 359);
+            this.picMaquinaTuring.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picMaquinaTuring.TabIndex = 18;
+            this.picMaquinaTuring.TabStop = false;
             // 
             // btnAgregarTransicion
             // 
@@ -226,7 +237,7 @@ namespace MaquinaDeTuring
             this.btnAgregarTransicion.FlatAppearance.BorderSize = 0;
             this.btnAgregarTransicion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAgregarTransicion.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.btnAgregarTransicion.Location = new System.Drawing.Point(495, 298);
+            this.btnAgregarTransicion.Location = new System.Drawing.Point(136, 364);
             this.btnAgregarTransicion.Name = "btnAgregarTransicion";
             this.btnAgregarTransicion.Size = new System.Drawing.Size(109, 29);
             this.btnAgregarTransicion.TabIndex = 14;
@@ -240,7 +251,7 @@ namespace MaquinaDeTuring
             this.btnEliminarEstado.FlatAppearance.BorderSize = 0;
             this.btnEliminarEstado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminarEstado.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEliminarEstado.Location = new System.Drawing.Point(429, 422);
+            this.btnEliminarEstado.Location = new System.Drawing.Point(79, 448);
             this.btnEliminarEstado.Name = "btnEliminarEstado";
             this.btnEliminarEstado.Size = new System.Drawing.Size(35, 35);
             this.btnEliminarEstado.TabIndex = 5;
@@ -254,7 +265,7 @@ namespace MaquinaDeTuring
             this.btnAgregarEstado.FlatAppearance.BorderSize = 0;
             this.btnAgregarEstado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAgregarEstado.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAgregarEstado.Location = new System.Drawing.Point(365, 373);
+            this.btnAgregarEstado.Location = new System.Drawing.Point(15, 399);
             this.btnAgregarEstado.Name = "btnAgregarEstado";
             this.btnAgregarEstado.Size = new System.Drawing.Size(35, 35);
             this.btnAgregarEstado.TabIndex = 3;
@@ -268,7 +279,7 @@ namespace MaquinaDeTuring
             this.btnMarcarEstadoFinal.FlatAppearance.BorderSize = 0;
             this.btnMarcarEstadoFinal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMarcarEstadoFinal.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMarcarEstadoFinal.Location = new System.Drawing.Point(365, 422);
+            this.btnMarcarEstadoFinal.Location = new System.Drawing.Point(15, 448);
             this.btnMarcarEstadoFinal.Name = "btnMarcarEstadoFinal";
             this.btnMarcarEstadoFinal.Size = new System.Drawing.Size(35, 35);
             this.btnMarcarEstadoFinal.TabIndex = 4;
@@ -282,13 +293,12 @@ namespace MaquinaDeTuring
             this.btnEliminarTransicion.FlatAppearance.BorderSize = 0;
             this.btnEliminarTransicion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminarTransicion.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEliminarTransicion.Location = new System.Drawing.Point(769, 373);
+            this.btnEliminarTransicion.Location = new System.Drawing.Point(397, 399);
             this.btnEliminarTransicion.Name = "btnEliminarTransicion";
             this.btnEliminarTransicion.Size = new System.Drawing.Size(35, 35);
             this.btnEliminarTransicion.TabIndex = 16;
             this.btnEliminarTransicion.Text = "X";
             this.btnEliminarTransicion.UseVisualStyleBackColor = false;
-            this.btnEliminarTransicion.Visible = false;
             this.btnEliminarTransicion.Click += new System.EventHandler(this.btnEliminarTransicion_Click);
             // 
             // cboDireccion
@@ -299,7 +309,7 @@ namespace MaquinaDeTuring
             "D",
             "N",
             "I"});
-            this.cboDireccion.Location = new System.Drawing.Point(552, 260);
+            this.cboDireccion.Location = new System.Drawing.Point(193, 326);
             this.cboDireccion.Name = "cboDireccion";
             this.cboDireccion.Size = new System.Drawing.Size(68, 29);
             this.cboDireccion.TabIndex = 13;
@@ -308,7 +318,7 @@ namespace MaquinaDeTuring
             // 
             this.lblDireccion.AutoSize = true;
             this.lblDireccion.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.lblDireccion.Location = new System.Drawing.Point(552, 236);
+            this.lblDireccion.Location = new System.Drawing.Point(193, 302);
             this.lblDireccion.Name = "lblDireccion";
             this.lblDireccion.Size = new System.Drawing.Size(84, 20);
             this.lblDireccion.TabIndex = 12;
@@ -317,7 +327,7 @@ namespace MaquinaDeTuring
             // cboEscritura
             // 
             this.cboEscritura.FormattingEnabled = true;
-            this.cboEscritura.Location = new System.Drawing.Point(478, 260);
+            this.cboEscritura.Location = new System.Drawing.Point(119, 326);
             this.cboEscritura.Name = "cboEscritura";
             this.cboEscritura.Size = new System.Drawing.Size(68, 29);
             this.cboEscritura.TabIndex = 11;
@@ -325,7 +335,7 @@ namespace MaquinaDeTuring
             // lblEscribe
             // 
             this.lblEscribe.AutoSize = true;
-            this.lblEscribe.Location = new System.Drawing.Point(478, 236);
+            this.lblEscribe.Location = new System.Drawing.Point(119, 302);
             this.lblEscribe.Name = "lblEscribe";
             this.lblEscribe.Size = new System.Drawing.Size(68, 21);
             this.lblEscribe.TabIndex = 10;
@@ -334,7 +344,7 @@ namespace MaquinaDeTuring
             // cboLectura
             // 
             this.cboLectura.FormattingEnabled = true;
-            this.cboLectura.Location = new System.Drawing.Point(552, 204);
+            this.cboLectura.Location = new System.Drawing.Point(193, 270);
             this.cboLectura.Name = "cboLectura";
             this.cboLectura.Size = new System.Drawing.Size(68, 29);
             this.cboLectura.TabIndex = 9;
@@ -342,7 +352,7 @@ namespace MaquinaDeTuring
             // lblLeectura
             // 
             this.lblLeectura.AutoSize = true;
-            this.lblLeectura.Location = new System.Drawing.Point(553, 181);
+            this.lblLeectura.Location = new System.Drawing.Point(194, 247);
             this.lblLeectura.Name = "lblLeectura";
             this.lblLeectura.Size = new System.Drawing.Size(41, 21);
             this.lblLeectura.TabIndex = 8;
@@ -352,7 +362,7 @@ namespace MaquinaDeTuring
             // 
             this.cboDestino.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboDestino.FormattingEnabled = true;
-            this.cboDestino.Location = new System.Drawing.Point(478, 204);
+            this.cboDestino.Location = new System.Drawing.Point(119, 270);
             this.cboDestino.Name = "cboDestino";
             this.cboDestino.Size = new System.Drawing.Size(68, 29);
             this.cboDestino.TabIndex = 7;
@@ -361,7 +371,7 @@ namespace MaquinaDeTuring
             // 
             this.lblDestino.AutoSize = true;
             this.lblDestino.Font = new System.Drawing.Font("Century Gothic", 11F);
-            this.lblDestino.Location = new System.Drawing.Point(479, 181);
+            this.lblDestino.Location = new System.Drawing.Point(120, 247);
             this.lblDestino.Name = "lblDestino";
             this.lblDestino.Size = new System.Drawing.Size(67, 20);
             this.lblDestino.TabIndex = 6;
@@ -391,7 +401,10 @@ namespace MaquinaDeTuring
             this.dgvTransiciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvTransiciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTransiciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Transicion});
+            this.Transicion,
+            this.Origen,
+            this.Destino,
+            this.Lectura});
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -400,7 +413,7 @@ namespace MaquinaDeTuring
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvTransiciones.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvTransiciones.Location = new System.Drawing.Point(652, 127);
+            this.dgvTransiciones.Location = new System.Drawing.Point(283, 247);
             this.dgvTransiciones.Name = "dgvTransiciones";
             this.dgvTransiciones.ReadOnly = true;
             this.dgvTransiciones.RowHeadersVisible = false;
@@ -411,7 +424,7 @@ namespace MaquinaDeTuring
             this.dgvTransiciones.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             this.dgvTransiciones.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
             this.dgvTransiciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTransiciones.Size = new System.Drawing.Size(152, 240);
+            this.dgvTransiciones.Size = new System.Drawing.Size(152, 146);
             this.dgvTransiciones.TabIndex = 15;
             // 
             // Transicion
@@ -419,6 +432,27 @@ namespace MaquinaDeTuring
             this.Transicion.HeaderText = "Transición";
             this.Transicion.Name = "Transicion";
             this.Transicion.ReadOnly = true;
+            // 
+            // Origen
+            // 
+            this.Origen.HeaderText = "Origen";
+            this.Origen.Name = "Origen";
+            this.Origen.ReadOnly = true;
+            this.Origen.Visible = false;
+            // 
+            // Destino
+            // 
+            this.Destino.HeaderText = "Destino";
+            this.Destino.Name = "Destino";
+            this.Destino.ReadOnly = true;
+            this.Destino.Visible = false;
+            // 
+            // Lectura
+            // 
+            this.Lectura.HeaderText = "Lectura";
+            this.Lectura.Name = "Lectura";
+            this.Lectura.ReadOnly = true;
+            this.Lectura.Visible = false;
             // 
             // dgvEstados
             // 
@@ -453,7 +487,7 @@ namespace MaquinaDeTuring
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvEstados.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dgvEstados.Location = new System.Drawing.Point(365, 127);
+            this.dgvEstados.Location = new System.Drawing.Point(15, 247);
             this.dgvEstados.Name = "dgvEstados";
             this.dgvEstados.ReadOnly = true;
             this.dgvEstados.RowHeadersVisible = false;
@@ -464,7 +498,7 @@ namespace MaquinaDeTuring
             this.dgvEstados.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             this.dgvEstados.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
             this.dgvEstados.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvEstados.Size = new System.Drawing.Size(99, 240);
+            this.dgvEstados.Size = new System.Drawing.Size(99, 146);
             this.dgvEstados.TabIndex = 2;
             this.dgvEstados.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEstados_CellClick);
             this.dgvEstados.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEstados_CellContentClick);
@@ -478,9 +512,9 @@ namespace MaquinaDeTuring
             // gpbSimbolosCinta
             // 
             this.gpbSimbolosCinta.Controls.Add(this.lblSimbolosCinta);
-            this.gpbSimbolosCinta.Location = new System.Drawing.Point(15, 250);
+            this.gpbSimbolosCinta.Location = new System.Drawing.Point(15, 181);
             this.gpbSimbolosCinta.Name = "gpbSimbolosCinta";
-            this.gpbSimbolosCinta.Size = new System.Drawing.Size(320, 120);
+            this.gpbSimbolosCinta.Size = new System.Drawing.Size(420, 60);
             this.gpbSimbolosCinta.TabIndex = 1;
             this.gpbSimbolosCinta.TabStop = false;
             this.gpbSimbolosCinta.Text = "Símbolos de la cinta";
@@ -490,7 +524,7 @@ namespace MaquinaDeTuring
             this.lblSimbolosCinta.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblSimbolosCinta.Location = new System.Drawing.Point(3, 23);
             this.lblSimbolosCinta.Name = "lblSimbolosCinta";
-            this.lblSimbolosCinta.Size = new System.Drawing.Size(314, 94);
+            this.lblSimbolosCinta.Size = new System.Drawing.Size(414, 34);
             this.lblSimbolosCinta.TabIndex = 0;
             this.lblSimbolosCinta.Text = "Γ = { }";
             this.lblSimbolosCinta.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -500,7 +534,7 @@ namespace MaquinaDeTuring
             this.gpbAlfabeto.Controls.Add(this.lblAlfabeto);
             this.gpbAlfabeto.Location = new System.Drawing.Point(15, 114);
             this.gpbAlfabeto.Name = "gpbAlfabeto";
-            this.gpbAlfabeto.Size = new System.Drawing.Size(320, 120);
+            this.gpbAlfabeto.Size = new System.Drawing.Size(420, 60);
             this.gpbAlfabeto.TabIndex = 0;
             this.gpbAlfabeto.TabStop = false;
             this.gpbAlfabeto.Text = "Alfabeto";
@@ -510,7 +544,7 @@ namespace MaquinaDeTuring
             this.lblAlfabeto.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblAlfabeto.Location = new System.Drawing.Point(3, 23);
             this.lblAlfabeto.Name = "lblAlfabeto";
-            this.lblAlfabeto.Size = new System.Drawing.Size(314, 94);
+            this.lblAlfabeto.Size = new System.Drawing.Size(414, 34);
             this.lblAlfabeto.TabIndex = 0;
             this.lblAlfabeto.Text = "Σ = { }";
             this.lblAlfabeto.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -658,14 +692,12 @@ namespace MaquinaDeTuring
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(833, 524);
+            this.ClientSize = new System.Drawing.Size(833, 552);
             this.Controls.Add(this.pnlContenido);
             this.Controls.Add(this.pnlBarraSuperior);
             this.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(849, 563);
-            this.MinimumSize = new System.Drawing.Size(849, 563);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Máquina de Turing";
@@ -675,6 +707,7 @@ namespace MaquinaDeTuring
             this.pnlEjecucion.ResumeLayout(false);
             this.pnlContenido.ResumeLayout(false);
             this.pnlContenido.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picMaquinaTuring)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransiciones)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEstados)).EndInit();
             this.gpbSimbolosCinta.ResumeLayout(false);
@@ -710,7 +743,6 @@ namespace MaquinaDeTuring
         private System.Windows.Forms.DataGridView dgvEstados;
         private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
         private System.Windows.Forms.DataGridView dgvTransiciones;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Transicion;
         private System.Windows.Forms.Panel pnlEjecucion;
         private System.Windows.Forms.ComboBox cboEscritura;
         private System.Windows.Forms.Label lblEscribe;
@@ -726,8 +758,13 @@ namespace MaquinaDeTuring
         private System.Windows.Forms.Button btnEliminarEstado;
         private System.Windows.Forms.Button btnAgregarTransicion;
         private System.Windows.Forms.Button btnSiguiente;
-        private System.Windows.Forms.Button btnRecargarImagen;
         private System.Windows.Forms.Label lblEstadoMaquina;
+        private System.Windows.Forms.PictureBox picMaquinaTuring;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Transicion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Origen;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Destino;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Lectura;
+        private System.Windows.Forms.CheckBox chkDireccion;
     }
 }
 

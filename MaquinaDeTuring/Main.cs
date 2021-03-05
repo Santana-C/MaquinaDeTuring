@@ -58,10 +58,15 @@ namespace MaquinaDeTuring
 
         private void GenerarImagen()
         {
+            string direccion;
+            if (chkDireccion.Checked)
+                direccion = "rankdir=LR";
+            else
+                direccion = "layout=neato";
             List<string> definiciones = new List<string>()
             {
                 "digraph maquina{",
-                "rankdir=LR",
+                direccion,
                 "bgcolor=white",
                 "node [shape = none, fontcolor=white] _",
                 $"node [shape = doublecircle, fontcolor=black, style=\"filled\"] {AreaTrabajo.Maquina.EstadoFinal}",
@@ -71,11 +76,9 @@ namespace MaquinaDeTuring
             definiciones.AddRange(AreaTrabajo.Maquina.ObtenerAristas());
             definiciones.Add("}");
             string pathArchivoDot = "C:\\MaquinaTuringResources\\maquinaTuring.dot";
+            string pathArchivoBat = "C:\\MaquinaTuringResources\\HacerDiagrama.bat"; 
             if (!File.Exists(pathArchivoDot))
-            {
                 File.CreateText(pathArchivoDot);
-            }
-            string pathArchivoBat = "C:\\MaquinaTuringResources\\HacerDiagrama.bat";
             if (!File.Exists(pathArchivoBat))
             {
                 using (StreamWriter sw = File.CreateText(pathArchivoBat))
@@ -85,13 +88,38 @@ namespace MaquinaDeTuring
                     sw.WriteLine("dot.exe -Tpng maquinaTuring.dot -o maquinaTuring.png");
                 }
             }
-            File.WriteAllLines("C:\\MaquinaTuringResources\\maquinaTuring.dot", definiciones.ToArray());
-            string direccionBat = @"C:\MaquinaTuringResources\HacerDiagrama.bat";
+
+            File.WriteAllLines(pathArchivoDot, definiciones.ToArray());
+            string direccionBat = pathArchivoBat;
             Process process = new Process();
             process.StartInfo.FileName = direccionBat;
             process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             process.Start();
             process.WaitForExit();
+            FileStream AliasFigura;
+            try
+            {
+                AliasFigura = new FileStream(@"C:\MaquinaTuringResources\maquinaTuring.png", System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No se pudo abrir el archivo", "E R R O R", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                picMaquinaTuring.Image = null;
+                return;
+            }
+            try
+            {
+                picMaquinaTuring.Image = Bitmap.FromStream(AliasFigura);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No se pudo cargar la imagen del archivo.", "E R R O R", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AliasFigura.Close();
+                picMaquinaTuring.Image = null;
+                return;
+            }
+            AliasFigura.Close();
+            picMaquinaTuring.Refresh();
         }
 
         private void btnAgregarEstado_Click(object sender, EventArgs e)
@@ -110,6 +138,7 @@ namespace MaquinaDeTuring
             AreaTrabajo.Maquina.Estados.Add(estado);
             MostrarEstados();
             cargarDatosParaTransiciones();
+            GenerarImagen();
         }
 
         private void btnAgregarTransicion_Click(object sender, EventArgs e)
@@ -146,6 +175,7 @@ namespace MaquinaDeTuring
                 AreaTrabajo.Maquina.AgregarSimbolo(char.Parse(cboEscritura.Text));
             MostrarTransiciones();
             cargarDatosParaTransiciones();
+            GenerarImagen();
         }
 
         private void cargarDatosParaTransiciones()
@@ -180,13 +210,14 @@ namespace MaquinaDeTuring
             dgvTransiciones.Rows.Clear();
             Estado estado = AreaTrabajo.Maquina.ObtenerEstado(dgvEstados.CurrentRow.Cells[0].Value.ToString());
             foreach (Transicion transicion in AreaTrabajo.Maquina.ObtenerTransiciones(dgvEstados.CurrentRow.Cells[0].Value.ToString()))
-                dgvTransiciones.Rows.Add(transicion);
+                dgvTransiciones.Rows.Add(transicion.ToString(), transicion.Origen.ToString(), transicion.Destino.ToString(), transicion.Lectura) ;
         }
 
         private void btnMarcarEstadoFinal_Click(object sender, EventArgs e)
         {
             AreaTrabajo.Maquina.EstadoFinal = AreaTrabajo.Maquina.ObtenerEstado(dgvEstados.CurrentRow.Cells[0].Value.ToString());
             MessageBox.Show($"Se ha asignado el estado final como: {AreaTrabajo.Maquina.EstadoFinal}", "Asignación de estado final.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            GenerarImagen();
         }
 
         private void btnEliminarEstado_Click(object sender, EventArgs e)
@@ -208,11 +239,33 @@ namespace MaquinaDeTuring
             MostrarEstados();
             MostrarTransiciones();
             cargarDatosParaTransiciones();
+            GenerarImagen();
         }
 
         private void btnEliminarTransicion_Click(object sender, EventArgs e)
         {
-            //TODO
+            try
+            {
+                string estadoOrigenS = dgvTransiciones.CurrentRow.Cells[1].Value.ToString();
+                Estado estadoOrigen = AreaTrabajo.Maquina.ObtenerEstado(estadoOrigenS);
+                string estadoDestinoS = dgvTransiciones.CurrentRow.Cells[2].Value.ToString();
+                Estado estadoDestino = AreaTrabajo.Maquina.ObtenerEstado(estadoDestinoS);
+                char lectura = char.Parse(dgvTransiciones.CurrentRow.Cells[3].Value.ToString());
+                Transicion transicionAEliminar = new Transicion()
+                {
+                    Origen = estadoOrigen,
+                    Destino = estadoDestino,
+                    Lectura = lectura
+                };
+                AreaTrabajo.Maquina.EliminarTransicion(transicionAEliminar);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            MostrarTransiciones();
+            cargarDatosParaTransiciones();
+            GenerarImagen();
         }
 
         private void dgvEstados_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -245,7 +298,7 @@ namespace MaquinaDeTuring
             System.IO.FileStream AliasFigura;
             try
             {
-                AliasFigura = new System.IO.FileStream(@"C:\MaquinaTuringResources\maquinaTuring.png", System.IO.FileMode.Open, System.IO.FileAccess.Read);
+                AliasFigura = new FileStream(@"C:\MaquinaTuringResources\maquinaTuring.png", System.IO.FileMode.Open, System.IO.FileAccess.Read);
             }
             catch (Exception)
             {
@@ -255,7 +308,7 @@ namespace MaquinaDeTuring
             }
             try
             {
-                picMT.Image = System.Drawing.Bitmap.FromStream(AliasFigura);
+                picMT.Image = Bitmap.FromStream(AliasFigura);
             }
             catch (Exception)
             {
@@ -339,6 +392,11 @@ namespace MaquinaDeTuring
                 dgvCinta.CurrentCell = dgvCinta.Rows[0].Cells[AreaTrabajo.Maquina.Cabezal];
             else
                 dgvCinta.CurrentCell = dgvCinta.Rows[0].Cells[0];
+        }
+
+        private void chkDireccion_CheckedChanged(object sender, EventArgs e)
+        {
+            GenerarImagen();
         }
     }
 }

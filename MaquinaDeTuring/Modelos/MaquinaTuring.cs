@@ -175,6 +175,20 @@ namespace MaquinaDeTuring.Modelos
                 throw new Exception("No se encontró el estado que se buscaba");
             }
         }
+
+        public void EliminarTransicion(Transicion transicion)
+        {
+            try
+            {
+                Estado estado = transicion.Origen;
+                estado.Transiciones.Remove(transicion);
+            }
+            catch (Exception)
+            {
+                throw new Exception("No se encontró el estado que se buscaba");
+            }
+        }
+
         public Transicion ObtenerTransicion(Transicion transicion)
         {
             foreach(Estado estado in Estados)
