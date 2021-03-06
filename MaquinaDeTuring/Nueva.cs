@@ -70,7 +70,7 @@ namespace MaquinaDeTuring
             int posicionCabezal;
             try
             {
-                posicionCabezal = int.Parse(txtPosicionCabezal.Text);
+                posicionCabezal = int.Parse(txtPosicionCabezal.Text)-1;
             }
             catch (Exception) 
             {

@@ -47,7 +47,7 @@ namespace MaquinaDeTuring
                 lblAlfabeto.Text = "Σ = { "+AreaTrabajo.Maquina.AlfabetoToString()+" }";
                 lblSimbolosCinta.Text = "Γ = { " + AreaTrabajo.Maquina.SimbolosToString() + " }";
                 if(AreaTrabajo.Maquina.Cabezal > 0)
-                    dgvCinta.CurrentCell = dgvCinta.Rows[0].Cells[AreaTrabajo.Maquina.Cabezal-1];
+                    dgvCinta.CurrentCell = dgvCinta.Rows[0].Cells[AreaTrabajo.Maquina.Cabezal];
                 else
                     dgvCinta.CurrentCell = dgvCinta.Rows[0].Cells[0];
                 dgvEstados.Rows.Clear();
@@ -377,6 +377,7 @@ namespace MaquinaDeTuring
             AreaTrabajo.Maquina.EstadoActual = AreaTrabajo.Maquina.ObtenerEstado("q0");
             pnlContenido.Enabled = true;
             AreaTrabajo.Maquina.Cinta = AreaTrabajo.CintaOriginal;
+            AreaTrabajo.Maquina.CalculosTerminados = false;
             AreaTrabajo.Maquina.Cabezal = AreaTrabajo.CabezalOriginal;
             dgvCinta.Columns.Clear();
             for (int i = 0; i < AreaTrabajo.Maquina.Cinta.Length; i++)
